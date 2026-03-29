@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>公考面试答题框架速查</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap');
+
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --surface2: #f0ede6;
+    --border: rgba(0,0,0,0.08);
+    --border-mid: rgba(0,0,0,0.15);
+    --text: #1a1814;
+    --text-2: #5a5650;
+    --text-3: #9a9590;
+    --purple: #534AB7; --purple-bg: #EEEDFE; --purple-border: #AFA9EC;
+    --teal: #0F6E56; --teal-bg: #E1F5EE; --teal-border: #5DCAA5;
+    --amber: #854F0B; --amber-bg: #FAEEDA; --amber-border: #EF9F27;
+    --coral: #993C1D; --coral-bg: #FAECE7; --coral-border: #F0997B;
+    --blue: #185FA5; --blue-bg: #E6F1FB; --blue-border: #85B7EB;
+    --gray-bg: #F1EFE8; --gray-text: #444441;
+    --radius: 10px; --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 2rem;
+  }
+
+  header {
+    padding: 1.5rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky; top: 0; z-index: 10;
+  }
+  header h1 {
+    font-size: 17px; font-weight: 600;
+    font-family: 'Noto Serif SC', serif;
+    letter-spacing: .02em;
+  }
+  header p { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+  .mode-bar {
+    display: flex; gap: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .mode-bar::-webkit-scrollbar { display: none; }
+  .mode-btn {
+    flex-shrink: 0;
+    padding: 11px 16px;
+    font-size: 13px;
+    border: none; background: transparent;
+    color: var(--text-3); cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all .15s; white-space: nowrap;
+  }
+  .mode-btn.active { color: var(--text); border-bottom-color: var(--text); font-weight: 500; }
+
+  .type-tabs {
+    display: flex; gap: 6px; padding: 12px 1.25rem;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: var(--bg);
+  }
+  .type-tabs::-webkit-scrollbar { display: none; }
+  .type-tab {
+    flex-shrink: 0; padding: 5px 13px; font-size: 12px;
+    border-radius: 20px; cursor: pointer;
+    border: 1px solid var(--border-mid);
+    background: var(--surface); color: var(--text-2);
+    transition: all .12s;
+  }
+  .type-tab.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+  .content { padding: 0 1.25rem 1.25rem; }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
+  .badge {
+    font-size: 11px; padding: 3px 10px;
+    border-radius: 20px; font-weight: 500;
+  }
+  .sec-label {
+    font-size: 10px; font-weight: 600; letter-spacing: .06em;
+    color: var(--text-3); text-transform: uppercase; margin-bottom: 10px;
+  }
+
+  .step-list { list-style: none; }
+  .step-item {
+    display: flex; gap: 10px; padding: 9px 0;
+    border-bottom: 1px solid var(--border); align-items: flex-start;
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-num {
+    font-size: 11px; font-weight: 600;
+    min-width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; flex-shrink: 0; margin-top: 1px;
+  }
+  .step-lbl { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+  .step-tip { font-size: 12px; color: var(--text-2); line-height: 1.55; }
+
+  hr.div { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+
+  .q-box {
+    background: var(--surface2); border-radius: var(--radius-sm);
+    padding: .9rem; font-size: 13px; line-height: 1.75; color: var(--text);
+    margin-bottom: .75rem;
+  }
+
+  .toggle-btn {
+    font-size: 12px; padding: 5px 13px;
+    border: 1px solid var(--border-mid); border-radius: 20px;
+    background: transparent; color: var(--text-2); cursor: pointer;
+  }
+  .toggle-btn:active { background: var(--surface2); }
+
+  .ans-step {
+    display: flex; gap: 8px; padding: 7px 0;
+    border-bottom: 1px solid var(--border); align-items: flex-start;
+  }
+  .ans-step:last-child { border-bottom: none; }
+  .ans-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+  .ans-txt { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+  .kw-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .kw-leg-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-2); }
+  .kw-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  .kw-chips { margin-bottom: 4px; }
+  .kw-chip {
+    display: inline-block; font-size: 12px; padding: 4px 11px;
+    border-radius: 20px; margin: 3px 3px 3px 0; cursor: pointer;
+    border: 1px solid transparent; transition: all .12s; user-select: none;
+  }
+  .kw-chip.type-subject { background: var(--purple-bg); color: var(--purple); border-color: var(--purple-border); }
+  .kw-chip.type-action { background: var(--teal-bg); color: var(--teal); border-color: var(--teal-border); }
+  .kw-chip.type-scene { background: var(--amber-bg); color: var(--amber); border-color: var(--amber-border); }
+  .kw-chip.type-tension { background: var(--coral-bg); color: var(--coral); border-color: var(--coral-border); }
+  .kw-chip.type-scope { background: var(--blue-bg); color: var(--blue); border-color: var(--blue-border); }
+  .kw-chip.selected { box-shadow: 0 0 0 2px currentColor; }
+
+  .spread-hint { font-size: 12px; color: var(--text-3); margin: 8px 0 8px; line-height: 1.5; }
+  .spread-item {
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 9px 11px; margin: 5px 0;
+    font-size: 12px; color: var(--text-2); line-height: 1.6;
+    background: var(--surface);
+  }
+
+  .shentu-step {
+    display: flex; gap: 10px; padding: 9px 0;
+    border-bottom: 1px solid var(--border); align-items: flex-start;
+  }
+  .shentu-step:last-child { border-bottom: none; }
+  .shentu-ico {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; flex-shrink: 0;
+  }
+
+  .prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+  .prog-wrap { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .prog-bar { height: 100%; background: var(--purple); border-radius: 2px; transition: width .3s; }
+  .prog-lbl { font-size: 11px; color: var(--text-3); white-space: nowrap; }
+
+  .rev-step {
+    display: flex; gap: 10px; padding: 10px;
+    margin: 5px 0; border-radius: var(--radius-sm); align-items: flex-start;
+    border: 1px solid var(--border); background: var(--surface);
+  }
+  .rev-step.done { background: var(--surface2); }
+  .rev-step.current { border-color: var(--purple); }
+  .rev-hint { font-size: 13px; color: var(--text-2); line-height: 1.6; margin: 4px 0 0; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 8px 16px; font-size: 13px;
+    border: 1px solid var(--border-mid); border-radius: 20px;
+    background: transparent; color: var(--text); cursor: pointer;
+    transition: all .12s; font-weight: 500;
+  }
+  .btn:active { background: var(--surface2); }
+  .btn.done { background: var(--teal-bg); color: var(--teal); border-color: var(--teal-border); }
+  .btn.primary { background: var(--purple-bg); color: var(--purple); border-color: var(--purple-border); }
+  .btn.primary:active { background: var(--purple-border); }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  .reset-btn {
+    font-size: 12px; padding: 5px 12px;
+    border: 1px solid var(--border-mid); border-radius: 20px;
+    background: transparent; color: var(--text-3); cursor: pointer; margin-left: 6px;
+  }
+
+  .all-done {
+    text-align: center; padding: 1rem;
+    background: var(--teal-bg); border-radius: var(--radius-sm); margin-top: 1rem;
+    font-size: 13px; color: var(--teal);
+  }
+
+  .note-lbl { font-size: 12px; color: var(--text-3); margin-bottom: 6px; }
+  textarea {
+    width: 100%; font-size: 13px; color: var(--text);
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 9px 11px;
+    resize: vertical; font-family: inherit; line-height: 1.6; min-height: 72px;
+  }
+  textarea:focus { outline: none; border-color: var(--border-mid); }
+
+  .save-btn {
+    margin-top: 6px; padding: 6px 14px; font-size: 12px;
+    border: 1px solid var(--border-mid); border-radius: 20px;
+    background: transparent; color: var(--text-2); cursor: pointer;
+  }
+  .saved-tip { font-size: 11px; color: var(--text-3); margin-left: 8px; display: none; }
+
+  .ai-input-wrap {
+    background: var(--surface2); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1rem;
+  }
+  .loading-dots span {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--text-3); margin: 0 2px;
+    animation: blink 1.2s infinite;
+  }
+  .loading-dots span:nth-child(2) { animation-delay: .2s; }
+  .loading-dots span:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
+
+  .err-box {
+    margin-top: .75rem; padding: .75rem;
+    background: #FCEBEB; border-radius: var(--radius-sm);
+    font-size: 12px; color: #A32D2D;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>公考面试答题框架</h1>
+  <p>审题 · 学习 · 自测 · 自己出题</p>
+</header>
+
+<div class="mode-bar" id="modeBar"></div>
+<div class="type-tabs" id="typeTabs"></div>
+<div class="content" id="content"></div>
+
+<script>
+const CARDS = [
+  {id:'comprehensive',label:'综合分析',bc:'#EEEDFE',bt:'#534AB7',nb:'#EEEDFE',nt:'#534AB7',
+   steps:[{l:'表态/定性',t:'对题目现象或事件作出明确判断，是好是坏，赞同或反对'},{l:'分析原因',t:'从背景、主体、机制等角度解释为什么会出现这一现象'},{l:'影响/意义',t:'分正反两面或多维度阐述影响，体现辩证思维'},{l:'对策建议',t:'针对问题提出具体可行的解决路径，落地性要强'}],
+   ex:{q:'近年来，"躺平"现象在年轻人中引发广泛讨论。有人认为这是对高压竞争的理性回应，也有人认为这是消极逃避。对此你怎么看？',
+    kw:[{w:'躺平',tp:'subject',sp:['什么是躺平？不工作、不消费、降低欲望','区别佛系：佛系接受结果，躺平主动放弃竞争','2021年前后网络流行语，有特定社会背景']},{w:'年轻人',tp:'scope',sp:['主体限定：聚焦年轻群体，不能泛化到全社会','背景：就业压力、房价、考研内卷等结构性困境','与上一代的奋斗叙事形成落差']},{w:'理性回应 vs 消极逃避',tp:'tension',sp:['题目已给出两种对立观点，暗示需要辩证分析','不能只批判也不能只肯定——要找中间立场','对立视角 → 答题要有"一分为二"的结构']},{w:'高压竞争',tp:'scene',sp:['来源：学历贬值、职场内卷、阶层流动受阻','与躺平的因果关系：是直接诱因','可延伸：什么造成了高压？政策层面能做什么？']}],
+    ans:[{tag:'表态/定性',txt:'"躺平"折射出青年在就业、住房、上升通道等多重压力下的心理出口，需辩证看待，既不全盘否定，也不过度美化。'},{tag:'分析原因',txt:'结构性压力：竞争加剧、努力与回报失衡、阶层固化感上升，部分青年产生"内卷无意义"的认知，以"躺平"抵制消耗性竞争。'},{tag:'影响/意义',txt:'积极面：促使社会反思竞争文化；消极面：若蔓延为普遍心态，将影响社会创造力与个人发展。'},{tag:'对策建议',txt:'政府层面拓宽上升通道；社会层面倡导多元成功观；个人层面找到内驱力，在适度"慢"中寻找真实价值。'}]}},
+  {id:'situation',label:'情景应变',bc:'#E1F5EE',bt:'#0F6E56',nb:'#E1F5EE',nt:'#0F6E56',
+   steps:[{l:'稳定情绪/态度',t:'先表明冷静处理的态度，展示心理素质，不慌不躁'},{l:'了解情况',t:'询问关键信息，搞清楚事情全貌再采取行动'},{l:'核心处置',t:'针对场景中最紧急的矛盾给出具体处置步骤'},{l:'后续跟进',t:'事情处理后汇报上级、总结经验、完善机制'}],
+   ex:{q:'你是某乡镇窗口工作人员。一位老人来办理养老金业务，因材料不齐无法当场办理，老人情绪激动，声称"你们就是故意刁难老百姓"，引起其他群众围观。请问你会怎么处理？',
+    kw:[{w:'乡镇窗口工作人员',tp:'subject',sp:['身份限定：基层公务员，代表政府形象','职责：服务群众，不能推诿、不能冲突','答题要有服务意识和纪律意识']},{w:'老人/材料不齐',tp:'scene',sp:['矛盾：规则（材料不全无法办）vs 需求（老人要办）','弱势群体：要体现人文关怀，不能生硬执行规则','是否有容缺受理机制？代办渠道？']},{w:'情绪激动/围观',tp:'tension',sp:['双重压力：情绪危机 + 舆论危机','优先级：先处理情绪，再解决实质问题','围观群众：不能让矛盾升级，要当众展示解决态度']},{w:'故意刁难',tp:'action',sp:['这是误解：要澄清，但不能辩解','理解对方委屈，解释规则背后的原因','不要：当场反驳、引起更大冲突']}],
+    ans:[{tag:'稳定情绪',txt:'立即起身迎接，语气平和请老人坐下："您跑一趟不容易，我们一定帮您想办法。"先稳住现场，避免在窗口争执。'},{tag:'了解情况',txt:'耐心询问老人带来了哪些材料，核实缺少哪一项，了解老人是否行动不便、路途较远等实际困难。'},{tag:'核心处置',txt:'若可容缺受理，先行受理并告知补交期限；若确实无法受理，开具材料清单，并视情提供预约上门或委托代办渠道。'},{tag:'后续跟进',txt:'事后向主管汇报，评估是否需要优化高频业务的材料清单提示，减少群众白跑情况。'}]}},
+  {id:'organization',label:'计划组织',bc:'#FAEEDA',bt:'#854F0B',nb:'#FAEEDA',nt:'#854F0B',
+   steps:[{l:'明确目标与前期准备',t:'了解任务背景，请示领导，组建团队，摸清资源'},{l:'制定方案',t:'细化活动/工作方案，分工明确，时间节点清晰'},{l:'执行过程',t:'按方案推进，协调各方，处理突发情况'},{l:'收尾与总结',t:'活动结束后做好善后、整理材料、汇报总结'}],
+   ex:{q:'单位计划在下个月举办一场面向辖区居民的法治宣传活动，领导指定由你负责统筹。你会如何组织这次活动？',
+    kw:[{w:'法治宣传活动',tp:'subject',sp:['任务性质：宣传类，不是执法，侧重传播和教育','受众：辖区居民，年龄层跨度大，要考虑多种形式','内容方向：法律常识、权益保护、反诈等']},{w:'下个月',tp:'scope',sp:['时间限制：约1个月准备周期，时间较紧','节点意识：要排倒计时，分阶段推进','方案要体现时间安排']},{w:'领导指定/负责统筹',tp:'action',sp:['身份：执行者，不是决策者——要请示汇报','统筹二字：协调多部门、多资源的能力','要体现：汇报、分工、协调三个动作']},{w:'辖区居民',tp:'scene',sp:['非专业人士，接受度参差不齐','形式要接地气：展板、互动问答比纯讲座更有效','覆盖率：考虑老年人、流动人口等群体']}],
+    ans:[{tag:'前期准备',txt:'向领导明确目标、规模、预算和时间要求；联系宣传、法制、后勤等部门，组建工作小组；了解场地情况和受众需求。'},{tag:'制定方案',txt:'确定活动形式、时间地点、宣传渠道、物料清单、各岗位分工及时间节点，提交领导审批。'},{tag:'执行过程',txt:'按方案推进，活动当天做好签到、秩序引导、现场记录；对突发情况提前预案，及时协调解决。'},{tag:'收尾总结',txt:'整理影像资料、参与人数数据，撰写总结报告，向领导汇报归档，并提出下次改进建议。'}]}},
+  {id:'interpersonal',label:'人际关系',bc:'#FAECE7',bt:'#993C1D',nb:'#FAECE7',nt:'#993C1D',
+   steps:[{l:'自我反思',t:'先检视自身是否有不当之处，体现谦逊和大局观'},{l:'沟通理解',t:'主动与对方沟通，换位思考，化解误解或矛盾'},{l:'解决问题',t:'聚焦工作大局，寻求共识，推动事情向好发展'},{l:'预防机制',t:'如有必要，建立长效沟通机制，避免类似问题再发'}],
+   ex:{q:'你和同事共同负责一个项目，临近汇报时发现同事将你的主要贡献写入了他自己的工作总结，未提及你的名字。你会怎么处理？',
+    kw:[{w:'共同负责/项目',tp:'subject',sp:['合作关系：平级同事，不是上下级','分工合作，说明双方都有贡献','分工是否清晰？有没有书面约定？']},{w:'临近汇报',tp:'scope',sp:['时间紧迫：不能拖，需要尽快解决','先解决眼前问题，长期机制后补','不能在汇报现场当众揭露，会破坏团队形象']},{w:'未提及名字',tp:'tension',sp:['核心矛盾：利益归属问题，涉及绩效和荣誉','可能性：无意疏忽 or 有意为之——要先了解再判断','答题陷阱：不要一上来就假设对方是坏人']},{w:'主要贡献',tp:'action',sp:['程度较重：不是小疏忽，是"主要"贡献被忽视','需要明确提出，不能忍气吞声','但方式要理性：私下沟通优先，保留证据']}],
+    ans:[{tag:'自我反思',txt:'先冷静下来，回想合作过程，确认是否存在分工模糊、表达不清晰的地方，避免带着情绪去沟通。'},{tag:'沟通理解',txt:'私下找同事心平气和地沟通，了解对方是否是无意疏忽，给对方解释的机会，不在公开场合对峙。'},{tag:'解决问题',txt:'若是疏忽，商量共同署名或补充说明；若沟通无果且涉及重要绩效，可向直属领导如实反映，由领导协调处理。'},{tag:'预防机制',txt:'此后在项目初期就明确分工并留有书面记录，避免类似情况再次发生，维护良好合作关系。'}]}},
+  {id:'speech',label:'演讲发言',bc:'#E6F1FB',bt:'#185FA5',nb:'#E6F1FB',nt:'#185FA5',
+   steps:[{l:'开场点题',t:'简洁有力地引出主题，可用数据、故事或金句开头'},{l:'展开论述',t:'围绕核心观点分2-3个层次阐述，逻辑清晰，有例有据'},{l:'结合实际',t:'联系工作岗位或社会背景，体现思考深度和务实态度'},{l:'收尾升华',t:'呼应开头，点明意义，语气有力，留下印象'}],
+   ex:{q:'请以"担当"为主题，进行3分钟即兴演讲。',
+    kw:[{w:'担当',tp:'subject',sp:['先定义：责任感、行动力、不逃避','多维度：对工作、对群众、对社会的担当','对比：担当 vs 推诿，勇于承担 vs 明哲保身']},{w:'3分钟',tp:'scope',sp:['约450-500字，不能贪多','开场30秒、展开2分钟、收尾30秒','1-2个典型例子足够，不要塞太多']},{w:'即兴',tp:'tension',sp:['无稿发言：要靠框架撑起来，不能背稿','开头要设计好，开口流畅则不慌','用反问句或故事开头，给自己思考时间']},{w:'演讲',tp:'action',sp:['有感染力，不是念报告','语气：坚定、有力、有节奏感','眼神接触、语速适中、有停顿']}],
+    ans:[{tag:'开场点题',txt:'"担当是一种选择——在最难的时刻，选择不退。"以一句话引入，点明主题，吸引注意力。'},{tag:'展开论述',txt:'第一层：担当是直面问题而非绕道而行；第二层：担当不是蛮干，是有能力、有方法地扛起责任，举基层服务具体案例佐证。'},{tag:'结合实际',txt:'联系岗位：窗口服务、政策落地、基层治理中处处需要担当——不推诿、不塞责，用行动赢得群众信任。'},{tag:'收尾升华',txt:'回扣开头："担当写在每一次接起的电话里，每一份认真填写的材料里。愿我们在平凡岗位上，做敢担当的人。"'}]}}
+];
+
+const MODES = [
+  {id:'shentu', label:'审题训练'},
+  {id:'study',  label:'学习模式'},
+  {id:'quiz',   label:'自测模式'},
+  {id:'custom', label:'自己出题 ✦'},
+];
+
+const kwTypeLabel = {subject:'主体/对象',action:'行为/动作',scene:'场景/背景',tension:'矛盾/张力',scope:'限定/范围'};
+const kwTypeDot   = {subject:'#7F77DD',action:'#1D9E75',scene:'#BA7517',tension:'#D85A30',scope:'#378ADD'};
+
+let mode = 'study', currentCard = 0;
+let notes = {}, quizState = {}, selKw = {}, customState = {q:'', result:null, loading:false, selKw:null};
+
+function init() {
+  // mode bar
+  const mb = document.getElementById('modeBar');
+  mb.innerHTML = MODES.map(m =>
+    `<button class="mode-btn ${m.id===mode?'active':''}" onclick="setMode('${m.id}')">${m.label}</button>`
+  ).join('');
+  // type tabs
+  const tt = document.getElementById('typeTabs');
+  tt.innerHTML = CARDS.map((c,i) =>
+    `<button class="type-tab ${i===currentCard?'active':''}" onclick="setCard(${i})">${c.label}</button>`
+  ).join('');
+  render();
+}
+
+function setMode(m) {
+  saveNote();
+  mode = m;
+  document.querySelectorAll('.mode-btn').forEach((b,i) => b.classList.toggle('active', MODES[i].id===m));
+  // hide type tabs in custom mode
+  document.getElementById('typeTabs').style.display = m==='custom' ? 'none' : '';
+  render();
+}
+
+function setCard(i) {
+  saveNote();
+  currentCard = i;
+  document.querySelectorAll('.type-tab').forEach((b,j) => b.classList.toggle('active', j===i));
+  render();
+}
+
+function saveNote() {
+  const ta = document.getElementById('note-input');
+  if (ta) notes[CARDS[currentCard].id] = ta.value;
+}
+
+function render() {
+  if (mode==='shentu') renderShentu();
+  else if (mode==='study') renderStudy();
+  else if (mode==='quiz') renderQuiz();
+  else renderCustom();
+}
+
+// ── STUDY ─────────────────────────────────────
+function renderStudy() {
+  const c = CARDS[currentCard];
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <span class="badge" style="background:${c.bc};color:${c.bt}">${c.label}</span>
+      </div>
+      <p class="sec-label">答题框架</p>
+      <ul class="step-list">
+        ${c.steps.map((s,i) => `
+          <li class="step-item">
+            <span class="step-num" style="background:${c.nb};color:${c.nt}">${i+1}</span>
+            <div><p class="step-lbl">${s.l}</p><p class="step-tip">${s.t}</p></div>
+          </li>`).join('')}
+      </ul>
+      <hr class="div">
+      <p class="sec-label">真题示例</p>
+      <div class="q-box">${c.ex.q}</div>
+      <div id="study-ans" style="display:none;margin-top:.75rem">
+        ${c.ex.ans.map(a => `
+          <div class="ans-step">
+            <span class="ans-tag" style="background:${c.bc};color:${c.bt}">${a.tag}</span>
+            <span class="ans-txt">${a.txt}</span>
+          </div>`).join('')}
+      </div>
+      <button class="toggle-btn" id="tog-ans" onclick="togStudyAns()">展开参考思路</button>
+      <hr class="div">
+      <p class="note-lbl">我的笔记</p>
+      <textarea id="note-input" placeholder="记录理解、易错点、例题思路...">${notes[c.id]||''}</textarea>
+      <div style="display:flex;align-items:center">
+        <button class="save-btn" onclick="saveNoteBtn()">保存笔记</button>
+        <span class="saved-tip" id="saved-tip">已保存</span>
+      </div>
+    </div>`;
+}
+
+function togStudyAns() {
+  const el = document.getElementById('study-ans');
+  const btn = document.getElementById('tog-ans');
+  const v = el.style.display === 'block';
+  el.style.display = v ? 'none' : 'block';
+  btn.textContent = v ? '展开参考思路' : '收起参考思路';
+}
+
+// ── SHENTU ────────────────────────────────────
+function renderShentu() {
+  const c = CARDS[currentCard];
+  const sel = selKw[c.id] != null ? selKw[c.id] : null;
+  const selItem = sel !== null ? c.ex.kw[sel] : null;
+  const legend = Object.keys(kwTypeLabel).map(t =>
+    `<div class="kw-leg-item"><div class="kw-dot" style="background:${kwTypeDot[t]}"></div><span>${kwTypeLabel[t]}</span></div>`
+  ).join('');
+  const chips = c.ex.kw.map((kw,i) =>
+    `<span class="kw-chip type-${kw.tp} ${sel===i?'selected':''}" onclick="selKwFn(${i})">${kw.w}</span>`
+  ).join('');
+  const spread = selItem
+    ? `<p class="spread-hint">「${selItem.w}」的发散思路：</p>${selItem.sp.map(s=>`<div class="spread-item">${s}</div>`).join('')}`
+    : `<p class="spread-hint">点击关键词，查看发散思路。</p>`;
+  const steps4 = [
+    {bg:'#EEEDFE',tc:'#534AB7',l:'第一步：识别题型',d:'先判断这是哪种题型，确定用哪套答题框架。'},
+    {bg:'#E1F5EE',tc:'#0F6E56',l:'第二步：圈出关键词',d:'找出主体、场景、行为、矛盾、限定范围等核心词。'},
+    {bg:'#FAEEDA',tc:'#854F0B',l:'第三步：逐词发散',d:'对每个关键词展开联想，想清楚背后含义和可延伸的方向。'},
+    {bg:'#FAECE7',tc:'#993C1D',l:'第四步：确定答题角度',d:'根据发散结果，判断核心矛盾和考查重点，再套入答题框架。'},
+  ];
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <span class="badge" style="background:${c.bc};color:${c.bt}">${c.label}</span>
+        <span style="font-size:11px;color:var(--text-3)">审题训练</span>
+      </div>
+      <p class="sec-label">审题四步法</p>
+      <div style="margin-bottom:1.25rem">
+        ${steps4.map(s=>`
+          <div class="shentu-step">
+            <div class="shentu-ico" style="background:${s.bg};color:${s.tc}">${s.l.slice(0,3)}</div>
+            <div><p class="step-lbl">${s.l}</p><p class="step-tip">${s.d}</p></div>
+          </div>`).join('')}
+      </div>
+      <hr class="div">
+      <p class="sec-label">题目</p>
+      <div class="q-box">${c.ex.q}</div>
+      <p class="sec-label" style="margin-top:1rem">关键词标注</p>
+      <div class="kw-legend">${legend}</div>
+      <div class="kw-chips">${chips}</div>
+      ${spread}
+      <hr class="div">
+      <p class="note-lbl">审题笔记</p>
+      <textarea id="note-input" placeholder="记录找到的关键词、发散角度、卡点...">${notes[c.id]||''}</textarea>
+      <div style="display:flex;align-items:center">
+        <button class="save-btn" onclick="saveNoteBtn()">保存笔记</button>
+        <span class="saved-tip" id="saved-tip">已保存</span>
+      </div>
+    </div>`;
+}
+
+function selKwFn(i) {
+  saveNote();
+  const c = CARDS[currentCard];
+  selKw[c.id] = selKw[c.id]===i ? null : i;
+  renderShentu();
+}
+
+// ── QUIZ ──────────────────────────────────────
+function renderQuiz() {
+  const c = CARDS[currentCard];
+  if (!quizState[c.id]) quizState[c.id] = {revealed:0};
+  const qs = quizState[c.id];
+  const total = c.steps.length;
+  const allDone = qs.revealed >= total;
+  const pct = Math.round(qs.revealed/total*100);
+
+  const steps = c.steps.map((s,i) => {
+    if (i < qs.revealed) return `
+      <div class="rev-step done">
+        <span class="step-num" style="background:${c.nb};color:${c.nt};flex-shrink:0">${i+1}</span>
+        <div><p class="step-lbl" style="margin-bottom:2px">${s.l}</p><p class="rev-hint">${c.ex.ans[i].txt}</p></div>
+      </div>`;
+    if (i === qs.revealed) return `
+      <div class="rev-step current">
+        <span class="step-num" style="background:${c.nb};color:${c.nt};flex-shrink:0">${i+1}</span>
+        <div><p class="step-lbl" style="margin-bottom:2px;color:var(--text-3)">第 ${i+1} 步 — 待揭示</p>
+          <p class="rev-hint" style="color:var(--text-3)">说完这一步后，点击下方按钮揭示</p></div>
+      </div>`;
+    return `
+      <div class="rev-step" style="opacity:.35">
+        <span class="step-num" style="background:var(--surface2);color:var(--text-3);flex-shrink:0">${i+1}</span>
+        <div><p class="step-lbl" style="color:var(--text-3)">第 ${i+1} 步</p></div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <span class="badge" style="background:${c.bc};color:${c.bt}">${c.label}</span>
+        <span style="font-size:11px;color:var(--text-3)">自测模式</span>
+      </div>
+      <div class="prog-row">
+        <div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
+        <span class="prog-lbl">${qs.revealed} / ${total} 步</span>
+      </div>
+      <p class="sec-label">题目</p>
+      <div class="q-box" style="margin-bottom:1rem">${c.ex.q}</div>
+      <p class="sec-label">逐步对照</p>
+      <div style="margin-bottom:1rem">${steps}</div>
+      <div style="display:flex;align-items:center">
+        ${allDone
+          ? `<button class="btn done" disabled>全部揭示完毕</button>
+             <button class="reset-btn" onclick="resetQuiz()">重新自测</button>`
+          : `<button class="btn" onclick="revealNext()">揭示第 ${qs.revealed+1} 步 →</button>`}
+      </div>
+      ${allDone ? `<div class="all-done">对照完成！回顾哪步最流畅，哪步还需加强。</div>` : ''}
+      <hr class="div">
+      <p class="note-lbl">我的笔记</p>
+      <textarea id="note-input" placeholder="记录自测中的卡点、薄弱步骤...">${notes[c.id]||''}</textarea>
+      <div style="display:flex;align-items:center">
+        <button class="save-btn" onclick="saveNoteBtn()">保存笔记</button>
+        <span class="saved-tip" id="saved-tip">已保存</span>
+      </div>
+    </div>`;
+}
+
+function revealNext() {
+  saveNote();
+  const c = CARDS[currentCard];
+  if (!quizState[c.id]) quizState[c.id] = {revealed:0};
+  if (quizState[c.id].revealed < c.steps.length) quizState[c.id].revealed++;
+  renderQuiz();
+}
+function resetQuiz() {
+  saveNote();
+  quizState[CARDS[currentCard].id] = {revealed:0};
+  renderQuiz();
+}
+
+// ── CUSTOM ────────────────────────────────────
+function renderCustom() {
+  const r = customState.result;
+  const legend = Object.keys(kwTypeLabel).map(t =>
+    `<div class="kw-leg-item"><div class="kw-dot" style="background:${kwTypeDot[t]}"></div><span>${kwTypeLabel[t]}</span></div>`
+  ).join('');
+
+  let resultHtml = '';
+  if (customState.loading) {
+    resultHtml = `<div style="padding:1.5rem;text-align:center">
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+      <p style="font-size:12px;color:var(--text-3);margin-top:.75rem">AI 正在拆解关键词…</p>
+    </div>`;
+  } else if (r) {
+    const si = customState.selKw;
+    const sk = si !== null ? r.keywords[si] : null;
+    const chips = r.keywords.map((kw,i) =>
+      `<span class="kw-chip type-${kw.type} ${si===i?'selected':''}" onclick="selCustomKw(${i})">${kw.word}</span>`
+    ).join('');
+    const spread = sk
+      ? `<p class="spread-hint">「${sk.word}」的发散思路：</p>${sk.spread.map(s=>`<div class="spread-item">${s}</div>`).join('')}`
+      : `<p class="spread-hint">点击关键词，查看发散思路。</p>`;
+    resultHtml = `
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+          <p class="sec-label" style="margin:0">AI 拆解结果</p>
+          <span class="badge" style="background:var(--purple-bg);color:var(--purple)">${r.questionType}</span>
+        </div>
+        <div class="kw-legend">${legend}</div>
+        <div class="kw-chips">${chips}</div>
+        ${spread}
+        <hr class="div">
+        <p class="sec-label">审题建议</p>
+        <p style="font-size:13px;color:var(--text-2);line-height:1.7">${r.advice}</p>
+      </div>`;
+  }
+
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <span class="badge" style="background:var(--gray-bg);color:var(--gray-text)">自己出题</span>
+        <span style="font-size:11px;color:var(--text-3)">粘贴题目，AI 自动拆解关键词</span>
+      </div>
+      <div class="ai-input-wrap">
+        <p class="sec-label">粘贴你的题目</p>
+        <textarea id="custom-q" style="min-height:100px;margin-bottom:.75rem" placeholder="把题目粘贴到这里…">${customState.q}</textarea>
+        <button class="btn primary" id="analyze-btn" onclick="doAnalyze()" ${customState.loading?'disabled':''}>
+          ${customState.loading ? 'AI 分析中…' : 'AI 拆解关键词 →'}
+        </button>
+      </div>
+    </div>
+    ${resultHtml}`;
+}
+
+function selCustomKw(i) {
+  customState.selKw = customState.selKw===i ? null : i;
+  renderCustom();
+}
+
+async function doAnalyze() {
+  const ta = document.getElementById('custom-q');
+  const q = ta ? ta.value.trim() : '';
+  if (!q) { alert('请先粘贴题目'); return; }
+  customState.q = q;
+  customState.loading = true;
+  customState.result = null;
+  customState.selKw = null;
+  renderCustom();
+  try {
+    const resp = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({question: q}),
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'API error');
+    customState.result = data;
+    customState.loading = false;
+    customState.selKw = null;
+    renderCustom();
+  } catch(e) {
+    customState.loading = false;
+    renderCustom();
+    const c = document.getElementById('content');
+    const d = document.createElement('div');
+    d.className = 'err-box';
+    d.textContent = '解析失败，请重试。（' + e.message + '）';
+    c.appendChild(d);
+  }
+}
+
+// ── NOTES ─────────────────────────────────────
+function saveNoteBtn() {
+  saveNote();
+  const tip = document.getElementById('saved-tip');
+  if (tip) { tip.style.display='inline'; setTimeout(()=>tip.style.display='none', 1500); }
+}
+
+init();
+</script>
+</body>
+</html>
